@@ -2,7 +2,7 @@
 Edge detection using gaussian blur and Canny algorithm.
 
 # Command line usage: 
-    ```
+    ```console
     python3 get_edges.py <Cmin> <Cmax>
     ```
         Cmin - Minimum threshold for Canny
