@@ -8,16 +8,18 @@ Command line usage: python3 get_edges.py <Cmin> <Cmax>
     Cmin - Minimum threshold for Canny
     Cmax - Maximum threshold for Canny
     Optional flag: -c - Use the camera input instead of the test image
-
-Functions:
-    get_edges(img, Cmin, Cmax):
-        img - source image
-        Cmin - Minimum threshold for Canny
-        Cmax - Maximum threshold for Canny
-        return value - processed image
 '''
 
 def get_edges(img, Cmin,Cmax):
+    '''
+    Blurs the image and detects it's edges
+    Args:
+        img - Source image
+        Cmin - Minimum threshold for Canny
+        Cmax - Maximum threshold for Canny
+    Returns:
+        img - Processed image with detected edges
+    '''
     try:
         img = cv.GaussianBlur(img,(5,5),1)
         img = cv.Canny(img,Cmin,Cmax)
@@ -33,14 +35,24 @@ if __name__ == "__main__":
     parser.add_argument("max_threshold",help="Maximum threshold for Canny")
     parser.add_argument("-c",help="Use the camera input instead of the test image",action="store_true")
     args=parser.parse_args()
+    try:
+        Cmin = float(args.min_threshold)
+        Cmax= float(args.max_threshold)
+    except:
+        print("Input error: not a number")
+        exit()
+    
     if(args.c):
             cam = cv.VideoCapture(0)
-            _, img = cam.read()
+            ret, img = cam.read()
+            if not ret:
+                print("Error: camera capture unsuccessful")
+                exit()
     else:
         img = skimage.data.coins()
 
     #edge detection
-    edges = get_edges(img,int(args.min_threshold), int(args.max_threshold))
+    edges = get_edges(img,Cmin, Cmax)
     if edges is None:
         exit()
 
