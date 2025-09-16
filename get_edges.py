@@ -27,7 +27,6 @@ def get_edges(img, Cmin,Cmax):
     return img
 
 if __name__ == "__main__":
-    #command line arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("min_threshold",help="Minimum threshold for Canny")
     parser.add_argument("max_threshold",help="Maximum threshold for Canny")
@@ -39,11 +38,10 @@ if __name__ == "__main__":
     else:
         img = skimage.data.coins()
     
-    #process the image
     edges = get_edges(img,int(args.min_threshold), int(args.max_threshold))
     if edges is None:
         exit()
-    #display the original and the result
+
     plt.subplot(121),plt.imshow(img,cmap = 'gray')
     plt.title('Original Image'), plt.axis("off")
     plt.subplot(122),plt.imshow(edges,cmap = 'gray')
